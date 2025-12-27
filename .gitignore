@@ -1,0 +1,23 @@
+# Ignore Terraform state and local files for the project
+# Terraform state files
+7_terraform/terraform.tfstate
+7_terraform/terraform.tfstate.backup
+7_terraform/*.tfstate
+7_terraform/*.tfstate.backup
+
+# Local Terraform directories
+7_terraform/.terraform/
+
+# Sensitive variable files
+*.tfvars
+*.tfvars.json
+override.tf
+override.tf.json
+
+# Editor/OS files
+*.swp
+.DS_Store
+
+# Node / Python artifacts (if any)
+node_modules/
+__pycache__/
