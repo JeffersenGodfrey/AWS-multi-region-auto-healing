@@ -126,6 +126,7 @@ Terraform was used to provision:
 ## Documentation
 
 Detailed architecture diagrams, implementation steps, and proof screenshots are available in:
+
 docs/Project_Report.pdf
 
 
