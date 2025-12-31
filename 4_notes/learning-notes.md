@@ -2,9 +2,9 @@
 
 ## 1. VPC Creation
 
-~ Created a custom VPC
-~ Enabled DNS Hostnames and DNS Resolution
-~ CIDR block configured (10.0.0.0/16)
+- Created a custom VPC
+- Enabled DNS Hostnames and DNS Resolution
+- CIDR block configured (10.0.0.0/16)
 
 2. Subnet Configuration
 
