@@ -6,151 +6,108 @@
 - Enabled DNS Hostnames and DNS Resolution
 - CIDR block configured (10.0.0.0/16)
 
-2. Subnet Configuration
+## 2. Subnet Configuration
 
-Created two public subnets in different Availability Zones
+- Created two public subnets in different Availability Zones
+- Enabled Auto-assign Public IPv4 for subnets
+- Associated subnets with a public route table
 
-Enabled Auto-assign Public IPv4 for subnets
+## 3. Internet Gateway & Routing
 
-Associated subnets with a public route table
+- Created an Internet Gateway
+- Attached it to the VPC
+- Added route 0.0.0.0/0 → Internet Gateway in route table
 
-3. Internet Gateway & Routing
+## 4. Security Groups
 
-Created an Internet Gateway
+- Created EC2 Security Group
+- Allowed HTTP (80) from ALB Security Group
+- Allowed SSH (22) for admin access (limited)
+- Created ALB Security Group
+- Allowed inbound HTTP (80) from anywhere
+- Ensured correct SG-to-SG referencing
 
-Attached it to the VPC
+## 5. EC2 Launch Template
 
-Added route 0.0.0.0/0 → Internet Gateway in route table
+- Created Launch Template for web server
+- Selected Amazon Linux AMI
+- Attached EC2 security group
+- Added User Data to install and start web server
+- Enabled IAM role for EC2 (SSM access only)
 
-4. Security Groups
+## 6. Auto Scaling Group (ASG)
 
-Created EC2 Security Group
+- Created ASG using the launch template
+- Selected multiple public subnets
+- Set desired capacity = 1
+- Enabled EC2 + ELB health checks
+- Configured health check grace period
 
-Allowed HTTP (80) from ALB Security Group
+## 7. Application Load Balancer (ALB)
 
-Allowed SSH (22) for admin access (limited)
+- Created Application Load Balancer
+- Selected public subnets
+- Attached ALB security group
+- Created target group with HTTP health checks
+- Connected ALB to Auto Scaling Group
 
-Created ALB Security Group
+## 8. Health Check Validation
 
-Allowed inbound HTTP (80) from anywhere
+- Verified targets are healthy in target group
+- Tested ALB DNS in browser
+- Confirmed traffic routing through ALB
 
-Ensured correct SG-to-SG referencing
+## 9. Auto-Healing Test
 
-5. EC2 Launch Template
+- Manually terminated EC2 instance
+- Observed ASG launching a new instance
+- Verified ALB routes traffic to new instance
+- Confirmed zero manual intervention
 
-Created Launch Template for web server
+## 10. Backend – DynamoDB
 
-Selected Amazon Linux AMI
+- Created DynamoDB table
+- Defined partition key
+- Verified table creation
 
-Attached EC2 security group
+## 11. Backend – AWS Lambda
 
-Added User Data to install and start web server
+- Created Lambda function (Python)
+- Added DynamoDB write permissions
+- Connected Lambda to DynamoDB table
+- Tested Lambda execution
 
-Enabled IAM role for EC2 (SSM access only)
+## 12. Backend – API Gateway
 
-6. Auto Scaling Group (ASG)
+- Created REST API
+- Created /create POST method
+- Integrated with Lambda
+- Deployed API to a stage
+- Verified Invoke URL
 
-Created ASG using the launch template
+## 13. Backend Validation
 
-Selected multiple public subnets
+- Tested API from EC2 using curl
+- Confirmed data insertion into DynamoDB
+- Verified Lambda logs in CloudWatch
 
-Set desired capacity = 1
+## 14. Route 53 Configuration
 
-Enabled EC2 + ELB health checks
+- Created Hosted Zone
+- Added record pointing to ALB DNS
+- Verified DNS resolution in browser
 
-Configured health check grace period
+## 15. Multi-Region Setup (Console + Terraform)
 
-7. Application Load Balancer (ALB)
+- Recreated frontend infrastructure in second region
+- Validated ALB and ASG health
+- Ensured backend remains in primary region only
 
-Created Application Load Balancer
+## 16. Cost Control
 
-Selected public subnets
-
-Attached ALB security group
-
-Created target group with HTTP health checks
-
-Connected ALB to Auto Scaling Group
-
-8. Health Check Validation
-
-Verified targets are healthy in target group
-
-Tested ALB DNS in browser
-
-Confirmed traffic routing through ALB
-
-9. Auto-Healing Test
-
-Manually terminated EC2 instance
-
-Observed ASG launching a new instance
-
-Verified ALB routes traffic to new instance
-
-Confirmed zero manual intervention
-
-10. Backend – DynamoDB
-
-Created DynamoDB table
-
-Defined partition key
-
-Verified table creation
-
-11. Backend – AWS Lambda
-
-Created Lambda function (Python)
-
-Added DynamoDB write permissions
-
-Connected Lambda to DynamoDB table
-
-Tested Lambda execution
-
-12. Backend – API Gateway
-
-Created REST API
-
-Created /create POST method
-
-Integrated with Lambda
-
-Deployed API to a stage
-
-Verified Invoke URL
-
-13. Backend Validation
-
-Tested API from EC2 using curl
-
-Confirmed data insertion into DynamoDB
-
-Verified Lambda logs in CloudWatch
-
-14. Route 53 Configuration
-
-Created Hosted Zone
-
-Added record pointing to ALB DNS
-
-Verified DNS resolution in browser
-
-15. Multi-Region Setup (Console + Terraform)
-
-Recreated frontend infrastructure in second region
-
-Validated ALB and ASG health
-
-Ensured backend remains in primary region only
-
-16. Cost Control
-
-No NAT Gateway used
-
-Used public subnets with auto-assign public IP
-
-Destroyed infrastructure after validation
+- No NAT Gateway used
+- Used public subnets with auto-assign public IP
+- Destroyed infrastructure after validation
 
 ## Rough Sketch 
 ![WhatsApp Image 2025-12-31 at 5 42 20 PM](https://github.com/user-attachments/assets/8f5b1831-ba10-40c3-a9be-9b7a26d16afe)
