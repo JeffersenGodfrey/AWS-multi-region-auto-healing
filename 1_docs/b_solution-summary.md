@@ -1,15 +1,14 @@
 # Solution Summary
 
-The solution implements an auto-healing, multi-region AWS architecture.
-
+The solution implements an auto-healing, multi-region AWS web architecture.
 Failures are detected using:
-- Application Load Balancer health checks
-- Amazon CloudWatch metrics and alarms
 
-Automated recovery is performed using:
-- AWS Lambda for recovery logic
-- AWS Systems Manager (SSM) for in-instance actions
-- Auto Scaling Groups for instance replacement
+- Application Load Balancer target group health checks
+- EC2 instance health status evaluated by Auto Scaling Groups
+- Automated recovery is performed using:
+- Auto Scaling Groups to terminate unhealthy instances
+- Automatic EC2 instance replacement without manual intervention
+- Route 53 DNS routing to enable multi-region traffic entry
 
 ## Autohealing Proof 
 <img width="940" height="139" alt="image" src="https://github.com/user-attachments/assets/4e784847-fcda-46c3-95fe-b8430e18da06" />
@@ -21,4 +20,4 @@ For regional failures:
 
 
 Data is stored using:
-- Amazon DynamoDB Global Tables for serverless, multi-region availability
+- Amazon DynamoDB Tables for storing data in tables. 
